@@ -1,0 +1,10 @@
+[project]
+name = "icenet-uv"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "tensorflow==2.18.*",
+    "tensorflow-metal>=1.2.0",
+]
