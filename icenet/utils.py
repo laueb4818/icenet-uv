@@ -1534,33 +1534,72 @@ def assignLatLonCoordSystem(cube):
     return cube
 
 
-def fix_near_real_time_era5_func(latlon_path):
+ #def fix_near_real_time_era5_func_old(latlon_path):
+ #
+ #    '''
+ #    Near-real-time ERA5 data is classed as a different dataset called 'ERA5T'.
+ #    This results in a spurious 'expver' dimension. This method detects
+ #    whether that dim is present and removes it, concatenating into one array
+ #    '''
+ #
+ #    ds = xr.open_dataarray(latlon_path)
+ #
+ #    if len(ds.data.shape) == 4:
+ #        print('Fixing spurious ERA5 "expver dimension for {}.'.format(latlon_path))
+ #
+ #        arr = xr.open_dataarray(latlon_path).data
+ #        arr = ds.data
+ #        # Expver 1 (ERA5)
+ #        era5_months = ~np.isnan(arr[:, 0, :, :]).all(axis=(1, 2))
+ #
+ #        # Expver 2 (ERA5T - near real time)
+ #        era5t_months = ~np.isnan(arr[:, 1, :, :]).all(axis=(1, 2))
+ #
+ #        ds = xr.concat((ds[era5_months, 0, :], ds[era5t_months, 1, :]), dim='time')
+ #
+ #        ds = ds.reset_coords('expver', drop=True)
+ #
+ #        os.remove(latlon_path)
+ #        ds.load().to_netcdf(latlon_path)
 
-    '''
-    Near-real-time ERA5 data is classed as a different dataset called 'ERA5T'.
-    This results in a spurious 'expver' dimension. This method detects
-    whether that dim is present and removes it, concatenating into one array
-    '''
+
+def fix_near_real_time_era5_func(latlon_path):
 
     ds = xr.open_dataarray(latlon_path)
 
-    if len(ds.data.shape) == 4:
-        print('Fixing spurious ERA5 "expver dimension for {}.'.format(latlon_path))
+    if "expver" not in ds.dims:
+        return
 
-        arr = xr.open_dataarray(latlon_path).data
+    print(f'Fixing spurious ERA5 "expver" dimension for {latlon_path}')
+
+    n_expver = ds.sizes["expver"]
+
+    if n_expver == 1:
+        ds = ds.squeeze("expver", drop=True)
+
+    elif n_expver == 2:
         arr = ds.data
-        # Expver 1 (ERA5)
-        era5_months = ~np.isnan(arr[:, 0, :, :]).all(axis=(1, 2))
 
-        # Expver 2 (ERA5T - near real time)
+        era5_months = ~np.isnan(arr[:, 0, :, :]).all(axis=(1, 2))
         era5t_months = ~np.isnan(arr[:, 1, :, :]).all(axis=(1, 2))
 
-        ds = xr.concat((ds[era5_months, 0, :], ds[era5t_months, 1, :]), dim='time')
+        ds = xr.concat(
+            (
+                ds[era5_months, 0, :],
+                ds[era5t_months, 1, :]
+            ),
+            dim="time"
+        )
 
-        ds = ds.reset_coords('expver', drop=True)
+        ds = ds.reset_coords("expver", drop=True)
 
-        os.remove(latlon_path)
-        ds.load().to_netcdf(latlon_path)
+    else:
+        raise ValueError(
+            f"Unexpected expver dimension size: {n_expver}"
+        )
+
+    os.remove(latlon_path)
+    ds.load().to_netcdf(latlon_path)
 
 
 ###############################################################################
@@ -1915,6 +1954,8 @@ def xarray_to_video(da, video_path, fps, mask=None, mask_type='contour', clim=No
 
     dpi (int): Figure DPI.
     '''
+    # This drops additional dimension for variables with geopotential height
+    da = da.squeeze(drop=True)
 
     if clim is not None:
         min = clim[0]
