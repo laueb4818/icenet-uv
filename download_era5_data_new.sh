@@ -17,19 +17,20 @@ vars=(
 
 pids=()
 
-for var in "${vars[@]}"; do
-    echo "Starting download: $var"
+echo "Starting ERA5 downloads: ${vars[*]}"
 
-    uv run python icenet/download_era5_data.py --var "$var" 2>&1 \
-        | tee "logs/era5_download_logs/${var}.txt" \
-        | sed "s/^/[$var] /" &
+for var in "${vars[@]}"; do
+    echo "Started: $var"
+
+    uv run python icenet/download_era5_data.py --var "$var" \
+        >"logs/era5_download_logs/${var}.txt" \
+        2>"logs/era5_download_logs/${var}_error.txt" &
 
     pids+=($!)
 done
 
-echo "Started ${#pids[@]} downloads"
+echo "All processes started."
 
-# Wait for all jobs and report status
 failed=0
 
 for i in "${!pids[@]}"; do
@@ -37,15 +38,15 @@ for i in "${!pids[@]}"; do
     var=${vars[$i]}
 
     if wait "$pid"; then
-        echo "✓ Finished: $var"
+        echo "Finished: $var"
     else
-        echo "✗ Failed: $var"
+        echo "FAILED: $var (see logs/era5_download_logs/${var}_error.txt)"
         failed=1
     fi
 done
 
-if [ $failed -eq 0 ]; then
-    echo "All downloads completed successfully."
+if [ "$failed" -eq 0 ]; then
+    echo "All ERA5 downloads finished."
 else
-    echo "Some downloads failed. Check logs/era5_download_logs/"
+    echo "Some ERA5 downloads failed."
 fi
