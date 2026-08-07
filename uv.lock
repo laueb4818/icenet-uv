@@ -384,6 +384,11 @@ array = [
 ]
 
 [[package]]
+name = "ecmwf-api-client"
+version = "1.7.0"
+source = { git = "https://github.com/ecmwf/ecmwf-api-client.git#749322ae106bd2caf42356da6ea2e4a134ff4845" }
+
+[[package]]
 name = "ecmwf-datastores-client"
 version = "0.5.3"
 source = { registry = "https://pypi.org/simple" }
@@ -593,6 +598,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "cdsapi" },
+    { name = "ecmwf-api-client" },
     { name = "imageio", extra = ["ffmpeg"] },
     { name = "scitools-iris", version = "3.14.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "scitools-iris", version = "3.15.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
@@ -605,6 +611,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "cdsapi", specifier = ">=0.7.7" },
+    { name = "ecmwf-api-client", git = "https://github.com/ecmwf/ecmwf-api-client.git" },
     { name = "imageio", extras = ["ffmpeg"], specifier = ">=2.37.4" },
     { name = "scitools-iris", specifier = ">=3.14.1" },
     { name = "tensorflow", specifier = "==2.18.*" },
