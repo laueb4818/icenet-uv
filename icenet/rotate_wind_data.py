@@ -8,6 +8,7 @@ import time
 import warnings
 import numpy as np
 import utils
+from utils import open_netcdf_dataset
 import argparse
 
 """
@@ -120,7 +121,7 @@ if gen_video:
         video_path = os.path.join(video_folder, fname)
 
         utils.xarray_to_video(
-            da=next(iter(xr.open_dataset(EASE_path).data_vars.values())),
+            da=next(iter(open_netcdf_dataset(EASE_path).data_vars.values())),
             video_path=video_path,
             fps=6,
             mask=land_mask,
