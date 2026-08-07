@@ -12,7 +12,7 @@ import sys
 import os
 import numpy as np
 from utils import assignLatLonCoordSystem, fix_near_real_time_era5_func, \
-    xarray_to_video
+    xarray_to_video, open_netcdf_dataset
 
 """
 Script to download monthly-averaged ERA5 reanalysis variables from the Climate
@@ -54,9 +54,9 @@ variable = args.var
 # Whether to skip variables that have already been downloaded or regridded
 overwrite = True
 
-do_download = True
-do_regrid = True
-gen_video = False
+do_download = False
+do_regrid = False
+gen_video = True
 
 area = [90, -180, 0, 180]  # Latitude/longitude boundaries to download
 
@@ -216,6 +216,14 @@ def regrid_var(variable, EASE_path):
         fix_near_real_time_era5_func(latlon_path)
 
     cube = iris.load_cube(latlon_path)
+
+
+    # Fix: 'expver' used to be a numeric variable but has changed to a variable length of type <class 'str'>
+    # remove it beofre proceeding
+    if cube.coords("expver"):
+        print("Removing variable 'expver' which has changed data type to string. We don't need it")
+        cube.remove_coord("expver")
+
     cube = assignLatLonCoordSystem(cube)
 
     # Regrid onto the EASE grid
@@ -236,6 +244,7 @@ def regrid_var(variable, EASE_path):
             cube_ease /= 9.80665
 
     # Save the new cube
+    print(cube_ease)
     iris.save(cube_ease, EASE_path)
 
     toc = time.time()
@@ -245,7 +254,9 @@ def regrid_var(variable, EASE_path):
 # Download and regrid
 ################################################################################
 
-cds = cdsapi.Client()
+# adding condition check
+if do_download:
+    cds = cdsapi.Client()
 
 if variable != 'rsds_and_rsus':
 
@@ -274,7 +285,7 @@ if variable != 'rsds_and_rsus':
             os.makedirs(video_folder)
         video_path = os.path.join(video_folder, f'{variable}.mp4')
         xarray_to_video(
-            da=next(iter(xr.open_dataset(EASE_path).data_vars.values())),
+            da=next(iter(open_netcdf_dataset(EASE_path).data_vars.values())),
             video_path=video_path,
             fps=6,
             mask=land_mask,
@@ -320,7 +331,7 @@ elif variable == 'rsds_and_rsus':
                 os.makedirs(video_folder)
             video_path = os.path.join(video_folder, f'{radiation_variable}.mp4')
             xarray_to_video(
-                da=next(iter(xr.open_dataset(EASE_path).data_vars.values())),
+                da=next(iter(open_netcdf_dataset(EASE_path).data_vars.values())),
                 video_path=video_path,
                 fps=6,
                 mask=land_mask,

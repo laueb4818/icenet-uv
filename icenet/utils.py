@@ -25,6 +25,29 @@ from tqdm import tqdm
 ############### DATA PROCESSING & LOADING
 ###############################################################################
 
+# adding a small helper function to import xarray data.
+# this should fix incompatibility issues with updated naming conventions
+# netcdf4 data is expected to have new coordinate names like 'valid_time' while this repo works with old coordinate names. xarray.open_dataset() automatically maps to new naming convention.
+def open_netcdf_dataset(path, **kwargs):
+    ds = xr.open_dataset(path, **kwargs)
+
+    rename_map = {}
+
+    if "valid_time" in ds.coords:
+        rename_map["valid_time"] = "time"
+
+    if "xc" in ds.coords:
+        rename_map["xc"] = "projection_x_coordinate"
+
+    if "yc" in ds.coords:
+        rename_map["yc"] = "projection_y_coordinate"
+
+    if rename_map:
+        ds = ds.rename(rename_map)
+
+    return ds
+
+
 
 class IceNetDataPreProcessor(object):
     """
@@ -1928,8 +1951,10 @@ def xarray_to_video(da, video_path, fps, mask=None, mask_type='contour', clim=No
         # fig.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
 
         fig.canvas.draw()
-        image = np.frombuffer(fig.canvas.tostring_rgb(), dtype='uint8')
-        image = image.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+        image = np.asarray(fig.canvas.buffer_rgba())
+
+        # Remove alpha channel
+        image = image[:, :, :3]
 
         plt.close()
         return image
