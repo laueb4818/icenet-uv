@@ -176,7 +176,7 @@ class IceNetDataPreProcessor(object):
                 forecast_start_date_ends[0],
                 forecast_start_date_ends[1],
                 freq='MS',
-                closed='right',
+                inclusive='right',
             ))
 
     def set_up_folder_hierarchy(self):
@@ -752,7 +752,7 @@ class IceNetDataLoader(tf.keras.utils.Sequence):
                 forecast_start_date_ends[0],
                 forecast_start_date_ends[1],
                 freq='MS',
-                closed='right',
+                inclusive='right',
             ))
 
     def set_transfer_forecast_IDs(self):
@@ -774,7 +774,7 @@ class IceNetDataLoader(tf.keras.utils.Sequence):
                     start_date,
                     end_date,
                     freq='MS',
-                    closed='right',
+                    inclusive='right',
                 ))
 
                 self.transfer_forecast_IDs.extend(
