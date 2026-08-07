@@ -54,8 +54,8 @@ variable = args.var
 # Whether to skip variables that have already been downloaded or regridded
 overwrite = True
 
-do_download = False
-do_regrid = False
+do_download = True
+do_regrid = True
 gen_video = True
 
 area = [90, -180, 0, 180]  # Latitude/longitude boundaries to download
