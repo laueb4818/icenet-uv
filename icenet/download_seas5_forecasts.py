@@ -59,10 +59,13 @@ init_dates = [date.strftime('%Y-%m-%d') for date in init_dates]
 
 # ECMWF API FOR HIGH RES DATA
 ################################################################################
-
+# !!!
+# if key and email are stored in config -> uncomment key and mail parameter in the lines below
+# !!!
 server = ECMWFService("mars", url="https://api.ecmwf.int/v1",
-                      key=config.ECMWF_API_KEY,
-                      email=config.ECMWF_API_EMAIL)
+                      #key=config.ECMWF_API_KEY,
+                      #email=config.ECMWF_API_EMAIL
+                      )
 
 request_dict = {
     'class': 'od',  # For hi-res SEAS5 data (as opposed to 'c3')

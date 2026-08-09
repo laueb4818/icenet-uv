@@ -1,1 +1,9 @@
-results/
+".venv"
+"data/"
+"results/"
+"trained_networks/"
+"figures/"
+"videos/"
+logs/
+icenet/__pycache__/
+*.bak

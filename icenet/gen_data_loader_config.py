@@ -129,7 +129,7 @@ output month is skipped due to missing data.
 """
 
 dataloader_config = {
-    'dataloader_name': 'icenet_nature_communications',
+    'dataloader_name': 'icenet_base',
     'dataset_name': 'dataset1',
     'input_data': {
         "siconca":
@@ -184,26 +184,26 @@ dataloader_config = {
         'obs_val_dates': ('2012-1-1', '2017-6-1'),
         'obs_test_dates': ('2018-1-1', '2019-6-1'),
     },
-    'cmip6_run_dict': {
-        'EC-Earth3': {
-            'r2i1p1f1': ('1851-1-1', '2099-6-1'),
-            'r7i1p1f1': ('1851-1-1', '2099-6-1'),
-            'r10i1p1f1': ('1851-1-1', '2099-6-1'),
-            'r12i1p1f1': ('1851-1-1', '2099-6-1'),
-            'r14i1p1f1': ('1851-1-1', '2099-6-1'),
-        },
-        'MRI-ESM2-0': {
-            'r1i1p1f1': ('1851-1-1', '2099-6-1'),
-            'r2i1p1f1': ('1851-1-1', '2029-6-1'),
-            'r3i1p1f1': ('1851-1-1', '2029-6-1'),
-            'r4i1p1f1': ('1851-1-1', '2029-6-1'),
-            'r5i1p1f1': ('1851-1-1', '2029-6-1'),
-        },
-    },
-    'raw_data_shape': (432, 432),
-    'default_seed': 42,
-    'loss_weight_months': True,
-    'verbose_level': 0,
+     'cmip6_run_dict': {
+         'EC-Earth3': {
+             'r2i1p1f1': ('1851-1-1', '2099-6-1'),
+             'r7i1p1f1': ('1851-1-1', '2099-6-1'),
+             'r10i1p1f1': ('1851-1-1', '2099-6-1'),
+             'r12i1p1f1': ('1851-1-1', '2099-6-1'),
+             'r14i1p1f1': ('1851-1-1', '2099-6-1'),
+         },
+         'MRI-ESM2-0': {
+             'r1i1p1f1': ('1851-1-1', '2099-6-1'),
+             'r2i1p1f1': ('1851-1-1', '2029-6-1'),
+             'r3i1p1f1': ('1851-1-1', '2029-6-1'),
+             'r4i1p1f1': ('1851-1-1', '2029-6-1'),
+             'r5i1p1f1': ('1851-1-1', '2029-6-1'),
+         },
+     },
+     'raw_data_shape': (432, 432),
+     'default_seed': 42,
+     'loss_weight_months': True,
+     'verbose_level': 0,
 }
 
 now = pd.Timestamp.now()

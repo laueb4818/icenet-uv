@@ -49,6 +49,7 @@ def open_netcdf_dataset(path, **kwargs):
 
 
 
+
 class IceNetDataPreProcessor(object):
     """
     Normalises IceNet input data and saves the normalised monthly averages
@@ -278,6 +279,21 @@ class IceNetDataPreProcessor(object):
 
         return mean, std
 
+    @staticmethod
+    def standardise_obs_time_coord(da):
+        """
+        Convert observation time coordinate to IceNet convention:
+        day=1, hour=0.
+        """
+        dates = []
+        for datetime64 in da.time.values:
+            date = pd.Timestamp(datetime64)
+            date = date.replace(day=1, hour=0)
+            dates.append(date)
+
+        return da.assign_coords({'time': dates})
+
+
     def normalise_array_using_all_training_months(self, da, minmax=False,
                                                   mean=None, std=None,
                                                   min=None, max=None):
@@ -483,8 +499,10 @@ class IceNetDataPreProcessor(object):
                 tic = time.time()
 
             fpath = os.path.join(config.obs_data_folder, '{}_EASE.nc'.format(varname))
-            with xr.open_dataset(fpath) as ds:
+            # with xr.open_dataset(fpath) as ds:
+            with open_netcdf_dataset(fpath) as ds:
                 da = next(iter(ds.data_vars.values()))
+                da = self.standardise_obs_time_coord(da)
 
             if data_format == 'anom':
 
