@@ -19,7 +19,15 @@ from losses import construct_categorical_focal_loss, weighted_categorical_crosse
 
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, LearningRateScheduler
 from tensorflow.keras.models import load_model
-from tensorflow.keras.optimizers import Adam
+
+#from tensorflow.keras.optimizers import Adam
+import platform
+if platform.system() == "Darwin" and platform.machine() == "arm64":
+    print("Using legacy optimizer for metal GPUs")
+    from tensorflow.keras.optimizers.legacy import Adam
+else:
+    from tensorflow.keras.optimizers import Adam
+
 import models
 
 import wandb
@@ -115,10 +123,10 @@ print('\n\n')
 #### User input
 ####################################################################
 
-dataloader_ID = '2026_08_07_2255_icenet_base'
+dataloader_ID = '2026_08_10_1413_icenet_base'
 architecture_ID = 'unet_tempscale'
 
-eager_mode = True  # Run TensorFlow in 'graph' or 'eager' mode
+eager_mode = False  # Run TensorFlow in 'graph' or 'eager' mode
 
 # Whether to pre-load and existing saved network file (e.g. for fine-tuning after
 #   pre-training or temperature scaling after fine-tuning).
@@ -156,7 +164,7 @@ verbose = 2
 
 # Whether to load train/val sets in memory (numpy or tfrecords) when training on
 #   observational data. If both are False, the data loader is used.
-train_on_numpy = False
+train_on_numpy = False 
 train_on_tfrecords = True
 
 # Whether to run the custom callbacks at the 0th batch

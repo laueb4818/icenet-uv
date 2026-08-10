@@ -21,7 +21,7 @@ simulations can take on the order of an hour to compute.
 '''
 
 # Path to the dataloader configuration JSON file
-dataloader_config_fpath = 'dataloader_configs/2026_08_07_2255_icenet_base.json'
+dataloader_config_fpath = 'dataloader_configs/2026_08_10_1413_icenet_base.json'
 
 preproc_obs_data = True
 

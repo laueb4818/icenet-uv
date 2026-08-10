@@ -9,7 +9,14 @@ import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Conv2D, BatchNormalization, UpSampling2D, \
     concatenate, MaxPooling2D, Input
-from tensorflow.keras.optimizers import Adam
+
+#from tensorflow.keras.optimizers import Adam
+import platform
+if platform.system() == "Darwin" and platform.machine() == "arm64":
+    print("Using legacy optimizer for metal GPUs")
+    from tensorflow.keras.optimizers.legacy import Adam
+else:
+    from tensorflow.keras.optimizers import Adam
 
 '''
 Defines the Python-based sea ice forecasting models, such as the IceNet architecture

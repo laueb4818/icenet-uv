@@ -1,18 +1,20 @@
 [project]
 name = "icenet-uv"
 version = "0.1.0"
-description = "Add your description here"
+description = "updated project dependencies for icenet-paper"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.12"
 dependencies = [
     "cdsapi>=0.7.7",
     "ecmwf-api-client",
     "imageio[ffmpeg]>=2.37.4",
+    "keras==2.15.0",
+    "numpy<2",
     "scitools-iris>=3.14.1",
-    "tensorflow==2.18.*",
+    "tensorflow==2.15.1",
     "tensorflow-metal>=1.2.0",
     "tqdm>=4.70.0",
-    "wandb>=0.28.1",
+    "wandb==0.16.6",
     "xarray>=2026.7.0",
 ]
 

@@ -130,7 +130,7 @@ output month is skipped due to missing data.
 
 dataloader_config = {
     'dataloader_name': 'icenet_base',
-    'dataset_name': 'dataset1',
+    'dataset_name': 'base_dataset',
     'input_data': {
         "siconca":
             {"abs": {"include": True, 'max_lag': 12},
