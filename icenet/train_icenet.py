@@ -23,7 +23,7 @@ from tensorflow.keras.optimizers import Adam
 import models
 
 import wandb
-from wandb.integration.keras import WandbMetricsLogger
+from wandb.keras import WandbCallback
 from callbacks import IceNetPreTrainingEvaluator, BatchwiseWandbLogger, BatchwiseModelCheckpoint
 
 np.set_printoptions(formatter={'float': lambda x: "{0:0.2f}".format(x)})
@@ -118,7 +118,7 @@ print('\n\n')
 dataloader_ID = '2026_08_07_2255_icenet_base'
 architecture_ID = 'unet_tempscale'
 
-eager_mode = False  # Run TensorFlow in 'graph' or 'eager' mode
+eager_mode = True  # Run TensorFlow in 'graph' or 'eager' mode
 
 # Whether to pre-load and existing saved network file (e.g. for fine-tuning after
 #   pre-training or temperature scaling after fine-tuning).
@@ -471,7 +471,7 @@ if train_on_observations:
 
     if args.wandb:
         obs_callbacks.append(
-            WandbMetricsLogger(
+            WandbCallback(
                 monitor=mcMonitor, mode=mcMode,
                 log_weights=False, log_gradients=False
             )
