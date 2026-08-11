@@ -1,0 +1,19 @@
+[project]
+name = "icenet-uv"
+version = "0.1.0"
+description = "updated project dependencies for icenet-paper"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "cdsapi>=0.7.7",
+    "ecmwf-api-client",
+    "imageio[ffmpeg]>=2.37.4",
+    "numpy<2",
+    "scitools-iris>=3.14.1",
+    "tqdm>=4.70.0",
+    "wandb==0.16.6",
+    "xarray>=2026.7.0",
+]
+
+[tool.uv.sources]
+ecmwf-api-client = { git = "https://github.com/ecmwf/ecmwf-api-client.git" }
