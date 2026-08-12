@@ -40,6 +40,14 @@ gen_video = True
 verify_wind_magnitude = True
 
 ################################################################################
+# Safety check:
+if os.path.exists('logs/wind_rotation_logs/era5.txt') and not cmip6:
+     raise RuntimeError(
+        "Safety check failed: logs/wind_rotation_logs/era5.txt already exists. "
+        "Refusing to rotate ERA5 wind data again."
+    )
+
+################################################################################
 
 if not cmip6:
     wind_data_folder = config.obs_data_folder
