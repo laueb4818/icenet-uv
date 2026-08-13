@@ -213,7 +213,7 @@ if not os.path.exists(config.dataloader_config_folder):
     os.makedirs(config.dataloader_config_folder)
 
 with open(fpath, 'w') as outfile:
-    json.dump(dataloader_config, outfile)
+    json.dump(dataloader_config, outfile, indent=4)
 
 print('Data loader config saved to {}\n'.format(fpath))
 print('Data loader name: {}'.format(fname[:-5]))
