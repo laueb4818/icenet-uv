@@ -1,9 +1,11 @@
-".venv"
-"data/"
-"results/"
-"trained_networks/"
-"figures/"
-"videos/"
+.venv
+data/
+results/
+trained_networks/
+figures/
+videos/
 logs/
 icenet/__pycache__/
 *.bak
+springfield-jobs/
+wandb/
