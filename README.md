@@ -37,6 +37,8 @@ the command line of a Unix-like machine with a GPU. If aiming to reproduce all t
 results of the study, 1 TB of space should safely cover the storage requirements
 from the data downloaded and generated.
 
+⚠️ Marks components of the original [_icenet-paper_](https://github.com/tom-andersson/icenet-paper) repo, that relate to SEAS5 or CMIP6 data and are not explicitly supported here, or components that are not yet fully tested.
+
 If you run into issues or have suggestions for improvement, please raise an issue or email me (lars.uebbing@uit.no).
 
 ## Steps to reproduce the paper's results from scratch
@@ -198,13 +200,16 @@ data loader, ERA5 and CMIP6 processing, learning rate decay, and video functiona
 - `icenet/callbacks.py` defines training callbacks.
 - `icenet/metrics.py` defines training metrics.
 
-### Project structure: simplified output from `tree`
+### Project structure (simplified):
+⚠️ Marks directories from the original [_icenet-paper_](https://github.com/tom-andersson/icenet-paper) repo that are not explicitly supported here.
+
 
 ```
 .
+├── uv.lock
 ├── data
 │   ├── obs
-│   ├── cmip6
+│   ├── cmip6 ⚠️
 │   │   ├── EC-Earth3
 │   │   │   ├── r10i1p1f1
 │   │   │   ├── r12i1p1f1
@@ -219,34 +224,35 @@ data loader, ERA5 and CMIP6 processing, learning rate decay, and video functiona
 │   │       └── r5i1p1f1
 │   ├── forecasts
 │   │   ├── icenet
-│   │   │   ├── 2021_06_15_1854_icenet_nature_communications
-│   │   │   │   └── unet_tempscale
-│   │   │   └── 2021_06_30_0954_icenet_pretrain_ablation
-│   │   │       └── unet_tempscale
+│   │   │   └── [dataloader_config_ID]
+│   │   │       └── unet_tempscale
+│   │   │   
+│   │   │  
 │   │   ├── linear_trend
-│   │   └── seas5
+│   │   └── seas5 ⚠️
 │   │       ├── EASE
 │   │       └── latlon
 │   ├── masks
 │   └── network_datasets
-│       └── dataset1
+│       └── [dataset_ID]
 │           ├── meta
 │           ├── obs
 │           ├── transfer
 │           └── norm_params.json
 ├── dataloader_configs
-│   ├── 2021_06_15_1854_icenet_nature_communications.json
-│   └── 2021_06_30_0954_icenet_pretrain_ablation.json
+│   └── [dataloader_config_ID.json]
+├── Dockerfile 
 ├── figures
 ├── icenet
 ├── logs
-│   ├── cmip6_download_logs
+│   ├── cmip6_download_logs ⚠️
 │   ├── era5_download_logs
-│   ├── seas5_download_logs
+│   ├── seas5_download_logs ⚠️
 │   └── wind_rotation_logs
+├── pyproject.toml
 ├── results
 │   ├── forecast_results
-│   │   └── 2021_07_01_183913_forecast_results.csv
+│   │   └── [forecast_ID]_forecast_results.csv
 │   ├── permute_and_predict_results
 │   │   └── permute_and_predict_results.csv
 │   └── uncertainty_results
@@ -254,7 +260,7 @@ data loader, ERA5 and CMIP6 processing, learning rate decay, and video functiona
 │       ├── sip_bounding_results.csv
 │       └── uncertainty_results.csv
 └── trained_networks
-    └── 2021_06_15_1854_icenet_nature_communications
+    └── [dataloader_config_ID]
         ├── obs_train_val_data
         │   ├── numpy
         │   └── tfrecords
@@ -265,6 +271,7 @@ data loader, ERA5 and CMIP6 processing, learning rate decay, and video functiona
                 ├── network_tempscaled_36.h5
                 ├── network_tempscaled_37.h5
                 :
+
 ```
 
 ### Acknowledgements
