@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11,<3.12"
 dependencies = [
     "cdsapi>=0.7.7",
+    "distributed>=2026.7.1",
     "ecmwf-api-client",
     "imageio[ffmpeg]>=2.37.4",
     "numpy<2",

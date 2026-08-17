@@ -66,7 +66,7 @@ if __name__ == "__main__":
     compute_in_memory = False
     compute_with_dask = True
 
-    dataloader_ID = '2021_06_15_1854_icenet_nature_communications'
+    dataloader_ID = '2026_08_10_1413_icenet_base'
     # dataloader_ID = '2021_06_30_0954_icenet_pretrain_ablation'
     architecture_ID = 'unet_tempscale'
 

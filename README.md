@@ -37,6 +37,7 @@ the command line of a Unix-like machine with a GPU. If aiming to reproduce all t
 results of the study, 1 TB of space should safely cover the storage requirements
 from the data downloaded and generated.
 
+If you run into issues or have suggestions for improvement, please raise an issue or email me (lars.uebbing@uit.no).
 
 ## Steps to reproduce the paper's results from scratch
 
@@ -44,16 +45,14 @@ from the data downloaded and generated.
 
 * The recommended package management tool for working with this repository is `uv`. If you are not familiar with uv, please see the [_official guide_](https://docs.astral.sh/uv/).
 Alternatively, we refer to our [_docker image_](https://hub.docker.com/repository/docker/laueb4818/icenet-legacy/general), which contains all the dependencies and CUDA support. This setup is recommended when working on an HPC system.
-Note: When working with a Docker container, the scripts should be run with `python ...` instead of `uv run ...` to use the environment which is set up inside the docker image. Otherwise, uv will try to activate an environment based on a local uv.lock file. When using any of the bash scripts of this repository in the docker container, we recommend the alternative versions with the name pattern "HPC_*.sh", which are already adjusted to the docker workflow.
+*Note*: When working with a Docker container, the scripts should be run with `python ...` instead of `uv run ...` to use the environment which is set up inside the docker image. Otherwise, uv will try to activate an environment based on a local uv.lock file. When using any of the bash scripts of this repository in the docker container, we recommend the alternative versions with the name pattern "HPC_*.sh", which are already adjusted to the docker workflow.
 
 
 * To be able to download ERA5 data, you must first set up a CDS
 account and populate your `.cdsapirc` file. Follow the 'Install the CDS API key'
 instructions [here](https://cds.climate.copernicus.eu/api-how-to#install-the-cds-api-key).
 
-* To track training runs and perform Bayesian hyperparameter tuning with Weights
-and Biases, sign up at https://wandb.ai/site. Obtain your API key from
-[here](https://wandb.ai/authorize) and fill the Weights and Biases entries in `icenet/config.py`.
+* To track training runs and perform Bayesian hyperparameter tuning with Weights and Biases, sign up at https://wandb.ai/site. Obtain your API key from [here](https://wandb.ai/authorize) and fill the Weights and Biases entries in `icenet/config.py`.
 Ensure you are logged in by running `wandb login` after setting up the uv environment.
 
 ### 1) Set up uv environment
@@ -157,7 +156,8 @@ temperature-scaled SIP forecasts are saved to
 `data/forecasts/icenet/<dataloader_ID>/<architecture_ID>/icenet_sip_forecasts_tempscaled.nc`.
 These forecasts represent the final ensemble-mean IceNet model used for the paper.
 
-### 6) Analyse forecasts
+### 6) Analyse forecasts 
+⚠️ This requires SEAS5 forecasts to be available &rarr; currently not supported
 
 - `uv run icenet/analyse_heldout_predictions.py`. Loads the NetCDF forecast data and computes
 forecast metrics, storing results in a global `pandas` DataFrame with
@@ -268,5 +268,4 @@ data loader, ERA5 and CMIP6 processing, learning rate decay, and video functiona
 ```
 
 ### Acknowledgements
-
-Thanks to James Byrne (BAS) and Tony Phillips (BAS) for direct contributions to this codebase.
+This codebase is heavily based on the [_original repository by Tom Andersson_](https://github.com/tom-andersson/icenet-paper)
