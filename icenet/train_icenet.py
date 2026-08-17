@@ -84,7 +84,7 @@ seed = args.seed
 #### Wandb SLURM config (https://docs.wandb.ai/guides/track/advanced/environment-variables)
 ####################################################################
 
-os.environ['WANDB_API_KEY'] = config.WANDB_API_KEY
+#os.environ['WANDB_API_KEY'] = config.WANDB_API_KEY
 os.environ['WANDB_DIR'] = config.WANDB_DIR
 os.environ['WANDB_CONFIG_DIR'] = config.WANDB_CONFIG_DIR
 os.environ['WANDB_CACHE_DIR'] = config.WANDB_CACHE_DIR
@@ -108,7 +108,7 @@ else:
 
 wandb.init(
     project='icenet',
-    entity='tomandersson',
+    entity='uit-lars-uebbing',
     config=defaults,
     allow_val_change=True,
     mode=wandb_mode,
