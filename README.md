@@ -1,12 +1,12 @@
 # Updated Codebase for "IceNet: Seasonal Arctic sea ice forecasting with probabilistic deep learning"
 
-This repository contains an updated version of the original [_IceNet implementation by Tom Andersson_](https://github.com/tom-andersson/icenet-paper), main author of the Nature Communications paper [_Seasonal Arctic sea ice forecasting with probabilistic deep learning_](https://www.nature.com/articles/s41467-021-25257-4).
-Due to outdated packages and changes in the data structure which is provided by the API servers, the original implementation runs into several issues. Further, the repository does not support modern apple silicon chips of the M-series.
+This repository is the result of a collaboration between [_The Alan Turing Institute_](https://www.turing.ac.uk/) and [_SFI Visual Intelligence_](https://www.visual-intelligence.no/). It contains an updated version of the original [_IceNet implementation by Tom Andersson_](https://github.com/tom-andersson/icenet-paper), main author of the Nature Communications paper [_Seasonal Arctic sea ice forecasting with probabilistic deep learning_](https://www.nature.com/articles/s41467-021-25257-4).
+Due to outdated packages and changes in the data structure which is provided by the API servers, the original implementation runs into several issues. Further, the repository does not support modern Apple silicon chips of the M-series.
 Thus, in this repository, we have updated the implementation and dependency structure by:
 
-- updating from python 3.7 to 3.11,
-- moving from conda to an uv managed environment,
-- adding support for apple silicon with OS-agnostic package installation and GPU selection,
+- migrating from python 3.7 to 3.11,
+- switching from a conda- to an uv-managed environment,
+- adding support for Apple silicon with OS-agnostic package installation and GPU selection,
 - modified downloading and pre-processing scripts to account for new data structure on server-side of the API and
 - updated function calls according to newer package versions.
 
@@ -37,9 +37,10 @@ the command line of a Unix-like machine with a GPU. If aiming to reproduce all t
 results of the study, 1 TB of space should safely cover the storage requirements
 from the data downloaded and generated.
 
-⚠️ Marks components of the original [_icenet-paper_](https://github.com/tom-andersson/icenet-paper) repo, that relate to SEAS5 or CMIP6 data and are not explicitly supported here, or components that are not yet fully tested.
+"⚠️" marks components of the original [_icenet-paper_](https://github.com/tom-andersson/icenet-paper) repo, that relate to SEAS5 or CMIP6 data and are not explicitly supported here, or components that are not yet fully tested.
 
-If you run into issues or have suggestions for improvement, please raise an issue or email me (lars.uebbing@uit.no).
+If you run into issues or have suggestions for improvement, please raise an issue.
+You can also contact us at [_Visual-Intelligence@uit.no_](Visual-Intelligence@uit.no) or reach out directly to Lars Uebbing ([_lars.uebbing@uit.no_](lars.uebbing@uit.no), the main contributor to this updated implementation.
 
 ## Steps to reproduce the paper's results from scratch
 
@@ -121,7 +122,8 @@ the data loader, NumPy arrays, or TFRecords datasets for training is controlled 
 
 ### 4) Train IceNet
 
-#### 4.1) OPTIONAL: Run the hyperparameter search (skip if using default values from paper)
+#### 4.1) OPTIONAL: Run the hyperparameter search (skip if using default values from paper) 
+⚠️ Hyperparameter search has not been tested yet.
 
 - Set `icenet/train_icenet.py` up for hyperparameter tuning: Set pre-training
 and temperature scaling bools to `False` in the user input section.
@@ -178,11 +180,13 @@ SEAS5's SIP forecasts. Also determines IceNet's ice edge region and assesses
 its ice edge bounding ability. Results are saved in `results/uncertainty_results/`.
 
 ### 7) Run the permute-and-predict method to explore IceNet's most important input variables
+⚠️ Not tested yet.
 
 - `uv run icenet/permute_and_predict.py`. Results are stored in
 `results/permute_and_predict_results/`.
 
 ### 8) Generate the paper figures and tables
+⚠️ Not tested yet.
 
 - `uv run icenet/plot_paper_figures.py`. Figures are saved in `figures/paper_figures/`. Note, you will need the Sea Ice Outlook
 error CSV file to plot Supp. Fig. 5:
